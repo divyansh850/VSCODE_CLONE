@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel='stylesheet' href='../stylesheets/style.css' />
+  </head>
+  <body>
+    <div id="sidebar">
+      <div id="first">
+        <i class="ri-checkbox-multiple-blank-line"></i>
+        <i class="ri-search-line"></i>
+        <i class="ri-git-branch-line"></i>
+        <i class="ri-layout-grid-line"></i>
+        <i class="ri-git-merge-line"></i>
+        <i class="ri-github-fill"></i>
+        <i class="ri-crosshair-line"></i>
+        <i class="ri-share-forward-fill"></i>
+      </div>
+      <div id="last">
+        <i class="ri-account-circle-line"></i>
+        <i class="ri-settings-4-line"></i>
+      </div>
+    </div>
+    <div id="navbar">
+        <div id="first">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png" alt="">
+          <h5>File</h5>
+          <h5>Edit</h5>
+          <h5>Selection</h5>
+          <h5>View</h5>
+          <h5>Go</h5>
+          <h5>Run</h5>
+          <h5>Terminal</h5>
+          <h5>Help</h5>
+        </div>
+        <div id="middle">
+          <h5>vscode - Visual Studio Code</h5>
+        </div>
+        <div id="last">
+          <i class="ri-layout-column-fill"></i>
+          <i class="ri-layout-row-fill"></i>
+          <i class="ri-layout-column-line"></i>
+          <i class="ri-layout-2-fill"></i>
+          <i class="ri-subtract-line"></i>
+          <i class="ri-checkbox-multiple-blank-line"></i>
+          <i class="ri-close-line"></i>
+        </div>
+    </div>
+    <div id="main">
+      <div id="card">
+            <div id="inner-card">
+              <h3>Change Name</h3>
+              <hr>
+              <form action="" method="post">
+                <input name="newname" id="inp" type="text">
+                <input  id="submit" type="submit">
+              </form>
+            </div>
+      </div>
+      <div id="left">
+        <div id="filedets">
+          <h3>Folder Name</h3>
+        <div id="icons">
+          <i id="fileicon" class="ri-file-add-line"></i>
+          <i id="foldericon" class="ri-folder-add-line"></i>
+          <a href="/back"><i class="ri-refresh-line"></i></a>
+        </div>
+        </div>
+        <div id="files">
+            <form id="fileform" action="/createfile">
+              <input type="text" name="filename" placeholder="filename">
+            </form>
+            <form id="folderform" action="/createfolder">
+              <input type="text" name="foldername" placeholder="foldername">
+            </form>
+            <% files.forEach(function(val){ %>
+             <div class="elem"> 
+              <div class="elem-left">
+                <%  if(val.isDirectory()){ %>
+                  <i class="ri-folder-line"></i>
+                  <%= val.name %>
+                 <% } else{ %>
+                  <a href="/file/<%= val.name %>">
+                    <i class="ri-file-3-line"></i>
+                    <%= val.name %>
+                  </a>
+                <% } %>
+              </div>
+              <div class="elem-right">
+                <i id="edit" class="ri-pencil-fill"></i>
+                <% if(val.isDirectory()){ %>
+                  <a href="/delete/folder/<%= val.name %>"><i id="d" class="ri-delete-bin-6-line"></i></a>
+                <% } else{ %>
+                  <a href="/delete/file/<%= val.name %>"><i id="d" class="ri-delete-bin-6-line"></i></a>
+                <% } %>
+              </div>
+              </div>
+            <% }) %>
+        </div>
+      </div>
+
+      <div id="right">
+        <h5>No Files Here</h5>
+        
+      </div>
+    </div>
+    <script>
+      function donoOffKaro(){
+      document.querySelectorAll("#files form")
+      .forEach(function(frm){
+        frm.style.display = "none";
+      })
+    }
+     
+    document.querySelector("#files")
+    .addEventListener("click",function(ll){
+      if(ll.target.id=="edit"){
+        var val=ll.srcElement.parentElement.parentElement.textContent.trim();
+        document.querySelector("#inp").value=val;
+        document.querySelector("#card").style.display="flex";
+        document.querySelector("#inner-card form").action=`/updatename/${val}`;
+      }
+    })
+
+    document.querySelector("#fileicon")
+    .addEventListener("click", function(){
+      donoOffKaro();
+      document.querySelector("#fileform").style.display = "block";
+    });
+
+    document.querySelector("#foldericon")
+    .addEventListener("click", function(){
+      donoOffKaro();
+      document.querySelector("#folderform").style.display = "block";
+    });
+    </script>
+  </body>
+</html>
